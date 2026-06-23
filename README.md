@@ -139,6 +139,9 @@ flowchart LR
 [测试反馈表](https://github.com/BG2DEU/codex-backup-assistant/issues/new?template=test-report.yml)，并先阅读
 [测试反馈说明](./docs/测试反馈说明.md)。
 
+如果不会使用 GitHub，也可以复制测试反馈模板，将已脱敏的测试结果发送到 QQ 邮箱：
+[3358827892@qq.com](mailto:3358827892@qq.com)。
+
 ## 当前验证状态
 
 - `dotnet format CodexBackup.slnx --verify-no-changes --no-restore`：通过
