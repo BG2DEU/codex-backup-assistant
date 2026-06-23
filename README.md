@@ -15,6 +15,10 @@
 **[提交测试反馈](https://github.com/BG2DEU/codex-backup-assistant/issues/new?template=test-report.yml)** ·
 **[查看操作说明](./docs/用户操作脚本.md)**
 
+## 界面预览
+
+![Codex 换机助手桌面主界面](./docs/assets/main-window-preview.png)
+
 ## 为什么制作它
 
 Codex 使用时间变长后，项目可能分布在不同磁盘和目录中；对话、规则、Skills、插件及配置也不一定都和项目放在一起。只复制某一个文件夹，容易遗漏没有推送到 GitHub 的源码、未提交修改、数据库、模型文件或 Codex 本地数据。
