@@ -1,0 +1,126 @@
+name: 志愿测试反馈
+description: 报告导出、校验、恢复或完整换机测试结果
+title: "[测试反馈] "
+labels:
+  - testing
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢参与测试。请不要上传真实备份包、完整日志、私人项目源码或包含令牌和密钥的文件。
+
+        提交前请删除或打码：用户名、完整路径、项目名称、仓库地址、账号、令牌、密钥、密码、Cookie 和客户资料。
+
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: 测试场景
+      options:
+        - 旧电脑扫描
+        - 导出备份包
+        - 校验备份包
+        - 新电脑恢复
+        - 完整换机流程
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 软件版本
+      placeholder: 例如 1.0.0-preview.1
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows 版本
+      placeholder: 例如 Windows 11 24H2 x64
+    validations:
+      required: true
+
+  - type: input
+    id: codex
+    attributes:
+      label: Codex 版本或安装方式
+      description: 不知道版本时可以填写“不清楚”，但请说明是桌面版、CLI 或其他安装方式。
+      placeholder: 例如 Codex 桌面版，已登录
+    validations:
+      required: true
+
+  - type: dropdown
+    id: destination
+    attributes:
+      label: 备份目标
+      options:
+        - 移动硬盘
+        - U 盘
+        - 本机文件夹
+        - 虚拟机共享目录
+        - 网络或同步目录
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: result
+    attributes:
+      label: 测试结果
+      options:
+        - 成功
+        - 部分成功
+        - 失败
+        - 无法继续
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 操作步骤
+      description: 请按顺序说明你做了什么，不要包含私人项目名称或完整路径。
+      placeholder: |
+        1. 启动软件并扫描
+        2. 选择测试项目
+        3. 导出到移动硬盘
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+
+  - type: input
+    id: error
+    attributes:
+      label: 故障代码或界面提示
+      placeholder: 没有时填写“无”
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 已脱敏日志片段
+      description: 只粘贴与错误直接相关的少量内容；不要上传完整日志。
+      render: text
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我确认没有上传真实备份包、私人源码、完整日志、令牌、密钥、密码或其他敏感信息。
+          required: true
+        - label: 我已经删除或打码用户名、完整路径、项目名和仓库地址。
+          required: true
