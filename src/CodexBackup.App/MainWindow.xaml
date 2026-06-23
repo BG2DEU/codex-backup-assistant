@@ -1,0 +1,159 @@
+<Window x:Class="CodexBackup.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Codex 换机助手"
+        Height="830"
+        Width="1080"
+        MinHeight="740"
+        MinWidth="920"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F6F8">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="28" />
+            <RowDefinition Height="290" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock FontSize="32" FontWeight="SemiBold" Foreground="#17202A" Text="Codex 换机助手" />
+            <TextBlock Margin="0,10,0,0" FontSize="16" Foreground="#566573"
+                       Text="项目、对话和个人环境的可验证迁移" />
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Padding="26" Background="White" CornerRadius="12" BorderBrush="#D5DBDB" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock FontSize="22" FontWeight="SemiBold" Text="从旧电脑导出" />
+                    <TextBlock Margin="0,14,0,0" TextWrapping="Wrap" Foreground="#566573"
+                               Text="发现项目并分类 Codex 数据；登录凭据始终排除。" />
+                    <Button Margin="0,16,0,0" Height="38" Command="{Binding ScanCommand}" Content="开始扫描" />
+                    <Button Margin="0,8,0,0" Height="38" Command="{Binding BuildPlanCommand}" Content="生成备份计划（只读）" />
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="86" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Height="38" Command="{Binding ExportCommand}" Content="导出备份包（测试版）" />
+                        <Button Grid.Column="2" Height="38" Command="{Binding CancelExportCommand}" Content="取消" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Padding="26" Background="White" CornerRadius="12" BorderBrush="#D5DBDB" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock FontSize="22" FontWeight="SemiBold" Text="在新电脑恢复" />
+                    <TextBlock Margin="0,14,0,0" TextWrapping="Wrap" Foreground="#566573"
+                               Text="前提：新电脑已安装并登录过 Codex，恢复前请完全退出 Codex。" />
+                    <Button Margin="0,14,0,0" Height="34" Command="{Binding ShowNewComputerGuideCommand}" Content="查看新电脑操作说明" />
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="86" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Height="44" Command="{Binding RestoreCommand}" Content="选择备份并恢复" />
+                        <Button Grid.Column="2" Height="44" Command="{Binding CancelRestoreCommand}" Content="取消" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="4" Padding="26" Background="White" CornerRadius="12" BorderBrush="#D5DBDB" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock FontSize="22" FontWeight="SemiBold" Text="检查现有备份" />
+                    <TextBlock Margin="0,14,0,0" TextWrapping="Wrap" Foreground="#566573"
+                               Text="从目标介质重新读取文件，验证清单和 SHA-256。" />
+                    <Button Margin="0,26,0,0" Height="44" Command="{Binding VerifyBackupCommand}" Content="校验备份包" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="4" Background="White" CornerRadius="12" BorderBrush="#D5DBDB" BorderThickness="1">
+            <TabControl BorderThickness="0">
+                <TabItem Header="项目">
+                    <DataGrid ItemsSource="{Binding Projects}"
+                              IsEnabled="{Binding CanEditItems}"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                              BorderThickness="0" RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="备份" Binding="{Binding IsSelected}" Width="70" />
+                            <DataGridTextColumn Header="项目" Binding="{Binding Name}" Width="180" IsReadOnly="True" />
+                            <DataGridTextColumn Header="发现来源" Binding="{Binding SourceSummary}" Width="220" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Git 状态" Binding="{Binding GitSummary}" Width="210" IsReadOnly="True" />
+                            <DataGridTextColumn Header="预计体量" Binding="{Binding SizeSummary}" Width="150" IsReadOnly="True" />
+                            <DataGridTextColumn Header="风险提示" Binding="{Binding RiskSummary}" Width="190" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Codex 引用数" Binding="{Binding SessionReferenceCount}" Width="110" IsReadOnly="True" />
+                            <DataGridTextColumn Header="路径" Binding="{Binding Path}" Width="*" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Codex 数据（凭据强制排除）">
+                    <DataGrid ItemsSource="{Binding CodexItems}"
+                              IsEnabled="{Binding CanEditItems}"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                              BorderThickness="0" RowHeaderWidth="0">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="备份" Width="70">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox HorizontalAlignment="Center"
+                                                  IsChecked="{Binding IsSelected}"
+                                                  IsEnabled="{Binding CanSelect}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="190" IsReadOnly="True" />
+                            <DataGridTextColumn Header="类别" Binding="{Binding CategorySummary}" Width="120" IsReadOnly="True" />
+                            <DataGridTextColumn Header="策略" Binding="{Binding PolicySummary}" Width="220" IsReadOnly="True" />
+                            <DataGridTextColumn Header="体量" Binding="{Binding SizeSummary}" Width="160" IsReadOnly="True" />
+                            <DataGridTextColumn Header="风险" Binding="{Binding RiskSummary}" Width="170" IsReadOnly="True" />
+                            <DataGridTextColumn Header="说明" Binding="{Binding Reason}" Width="*" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <Border Grid.Row="5" Margin="0,20,0,0" Padding="16,12" Background="#E8F6F3" CornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="152" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Foreground="#117864" TextWrapping="Wrap" Text="{Binding StatusText}" />
+                    <TextBlock Margin="0,8,0,0" Foreground="#117864" TextWrapping="Wrap" Text="{Binding RestoreSummaryText}" />
+                    <TextBlock Margin="0,4,0,0" Foreground="#117864" TextWrapping="Wrap" Text="{Binding RestoreReportPathText}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                    <Button Width="140"
+                            Height="34"
+                            Command="{Binding OpenRestoreReportCommand}"
+                            Content="打开恢复报告" />
+                    <Button Margin="0,8,0,0"
+                            Width="140"
+                            Height="34"
+                            Command="{Binding OpenLogFolderCommand}"
+                            Content="打开日志目录" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

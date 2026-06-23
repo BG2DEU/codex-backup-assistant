@@ -1,0 +1,16 @@
+# Local discovery outputs may contain private paths and project names.
+artifacts/
+*.discovery.json
+
+# Build outputs for the future .NET desktop application.
+bin/
+obj/
+.vs/
+
+# Local editor and OS files.
+.idea/
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
+
